@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/portfolio
+    username: postgres
+    password: <<DB_PASSWORD>>
+  jackson:
+    default-property-inclusion: non_null
+
+  liquibase:
+    change-log: /db/changelog/db.changelog-root.xml
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+liquibase:
+  secureParsing: false
+
+app:
+  jwt:
+    secret: <<JWT_SECRET>>
+
+server:
+  port: 8080
