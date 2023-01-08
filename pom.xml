@@ -103,6 +103,11 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.openrewrite.recipe</groupId>
+			<artifactId>rewrite-spring</artifactId>
+			<version>4.31.0</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -110,7 +115,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2021.0.5</version>
+				<version>2022.0.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -142,7 +147,19 @@
 			<plugin>
 				<groupId>org.openrewrite.maven</groupId>
 				<artifactId>rewrite-maven-plugin</artifactId>
-				<version>4.37.0</version>
+				<version>4.38.0</version>
+				<configuration>
+					<activeRecipes>
+						<recipe>org.openrewrite.java.spring.NoRequestMappingAnnotation</recipe>
+					</activeRecipes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.openrewrite.recipe</groupId>
+						<artifactId>rewrite-spring</artifactId>
+						<version>4.31.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
