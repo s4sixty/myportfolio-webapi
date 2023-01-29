@@ -10,17 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "etfunds")
-public class Etfund {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    private String ticker;
-    private String name;
-    private String exchange;
-    private String categoryName;
-    private String country;
+public class Etfund extends TickerBase {
 }

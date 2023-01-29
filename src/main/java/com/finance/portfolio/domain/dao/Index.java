@@ -10,17 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "indexes")
-public class Index {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class Index extends TickerBase {
 
-    private String ticker;
-    private String name;
-    private String exchange;
-    private String categoryName;
-    private String country;
 }

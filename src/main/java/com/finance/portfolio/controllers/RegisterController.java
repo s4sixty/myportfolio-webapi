@@ -5,6 +5,7 @@ import com.finance.portfolio.domain.dto.auth.UserRegistrationResponse;
 import com.finance.portfolio.services.auth.RegisterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ public class RegisterController {
     private RegisterService registerService;
 
     @PostMapping("auth/signup")
-    public UserRegistrationResponse signUp(@Valid @RequestBody UserRegistrationRequest request) {
+    public ResponseEntity<UserRegistrationResponse> signUp(@Valid @RequestBody UserRegistrationRequest request) {
         var response = registerService.registerUser(request);
-        return response;
+        return ResponseEntity.ok().body(response);
     }
 }
