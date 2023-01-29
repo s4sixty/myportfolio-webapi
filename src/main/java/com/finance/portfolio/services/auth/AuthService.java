@@ -18,7 +18,7 @@ public class AuthService {
     private JwtTokenUtil jwtTokenUtil;
     private AuthenticationManager authManager;
 
-    public ResponseEntity authenticateUser(AuthRequest request) {
+    public AuthResponse authenticateUser(AuthRequest request) {
         try {
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -29,7 +29,7 @@ public class AuthService {
             String accessToken = jwtTokenUtil.generateAccessToken(user);
             AuthResponse response = new AuthResponse(user.getEmail(), accessToken);
 
-            return ResponseEntity.ok().body(response);
+            return response;
 
         } catch (BadCredentialsException ex) {
             throw new BadCredentialsException("Invalid credentials", ex);

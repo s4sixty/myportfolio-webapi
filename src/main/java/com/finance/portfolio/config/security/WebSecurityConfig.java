@@ -28,9 +28,16 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/api/v1/auth/*").permitAll()
+                .requestMatchers("/api/v1/auth/*",
+                        "/swagger",
+                        "/v3/api-docs/**",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui/**",
+                        "/webjars/**").permitAll()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
             );
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

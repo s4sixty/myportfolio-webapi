@@ -14,6 +14,10 @@ spring:
       ddl-auto: update
     show-sql: true
 
+ticker-service-api:
+  url:
+    localhost:3000/api/v1
+
 liquibase:
   secureParsing: false
 
@@ -23,3 +27,10 @@ app:
 
 server:
   port: 8080
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /swagger
+  api-docs:
+    path: /api-docs
