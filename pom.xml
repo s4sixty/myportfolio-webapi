@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>org.openrewrite.recipe</groupId>
 			<artifactId>rewrite-spring</artifactId>
-			<version>4.31.0</version>
+			<version>4.33.2</version>
 		</dependency>
 	</dependencies>
 
@@ -162,7 +162,7 @@
 					<dependency>
 						<groupId>org.openrewrite.recipe</groupId>
 						<artifactId>rewrite-spring</artifactId>
-						<version>4.31.0</version>
+						<version>4.33.2</version>
 					</dependency>
 				</dependencies>
 			</plugin>
