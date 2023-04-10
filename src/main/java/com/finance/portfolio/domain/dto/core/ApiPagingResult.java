@@ -1,16 +1,14 @@
 package com.finance.portfolio.domain.dto.core;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
+import java.util.List;
+
+@Data
+@EqualsAndHashCode(callSuper=false)
 @SuperBuilder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ApiPagingResult<T> extends ApiResult<T> {
+    T data;
     Paging paging;
 }

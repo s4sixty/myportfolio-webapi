@@ -1,5 +1,6 @@
 package com.finance.portfolio.controllers;
 
+import com.finance.portfolio.config.annotations.RestControllerWrapper;
 import com.finance.portfolio.domain.dto.ticker.TickerHistoryResponse;
 import com.finance.portfolio.domain.dto.ticker.TickerInfoResponse;
 import com.finance.portfolio.domain.exceptions.BusinessCoreException;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RestControllerWrapper
 @RequestMapping("api/v1/tickers")
 @RequiredArgsConstructor
 public class TickersController {

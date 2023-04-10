@@ -1,18 +1,12 @@
 package com.finance.portfolio.domain.dto.core;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Collection;
 
-@Getter
-@Setter
+@Data
 @SuperBuilder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ApiResult<T> {
     String activityId;
     String resultCode;

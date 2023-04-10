@@ -4,3 +4,13 @@ spring:
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
     username: sa
     password: sa
+  liquibase:
+    enabled: false
+
+ticker-service-api:
+  url:
+    localhost:3000/api/v1
+
+app:
+  jwt:
+    secret: TEST

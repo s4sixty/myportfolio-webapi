@@ -1,15 +1,15 @@
-package com.finance.portfolio.domain.dao;
+package com.finance.portfolio.domain.dto.core;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "indexes")
-public class Index extends TickerBase {
+@NoArgsConstructor
+public class PagingRequest {
+    private Integer page;
+    private Integer size;
 }

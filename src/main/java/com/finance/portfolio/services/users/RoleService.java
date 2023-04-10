@@ -1,4 +1,4 @@
-package com.finance.portfolio.services.user;
+package com.finance.portfolio.services.users;
 
 import com.finance.portfolio.domain.dao.Role;
 import com.finance.portfolio.repositories.RoleRepository;
@@ -18,7 +18,7 @@ public class RoleService {
     private RoleRepository roleRepository;
 
     public Role saveRole(Role role) {
-        return null;
+        return role;
     }
 
     public void addRolesToUser(Long userId, List<Long> roles) {

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class JwtTokenUtil {
-    private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
+    private static final long EXPIRE_DURATION = 100 * 60 * 60 * 1000; // 100 hour
 
     @Value("${app.jwt.secret}")
     private String SECRET_KEY;

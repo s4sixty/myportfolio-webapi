@@ -1,4 +1,4 @@
-package com.finance.portfolio.services.user;
+package com.finance.portfolio.services.users;
 
 import com.finance.portfolio.domain.dao.User;
 import com.finance.portfolio.domain.dto.user.UsersResponse;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -24,21 +23,18 @@ public class UserService implements UserDetailsService {
     private ModelMapper modelMapper;
 
     public User getUser(String email) {
-        var user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalStateException("user not found"));
-        return user;
+        return userRepository.findByEmail(email).orElseThrow(() -> new IllegalStateException("user not found"));
     }
 
     public List<UsersResponse> getAllUsers() {
         var users = userRepository.findAll();
-        var usersResponse = users.stream()
+        return users.stream()
                 .map(user -> modelMapper.map(user, UsersResponse.class))
-                .collect(Collectors.toList());
-        return usersResponse;
+                .toList();
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = this.getUser(email);
-        return user;
+        return this.getUser(email);
     }
 }

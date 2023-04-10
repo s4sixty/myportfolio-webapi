@@ -1,7 +1,7 @@
 package com.finance.portfolio.config.security;
 
 import com.finance.portfolio.config.filter.JwtAuthFilter;
-import com.finance.portfolio.services.user.UserService;
+import com.finance.portfolio.services.users.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

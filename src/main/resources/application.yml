@@ -3,8 +3,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/portfolio
     username: postgres
     password: <<DB_PASSWORD>>
+    driverClassName: org.postgresql.Driver
   jackson:
     default-property-inclusion: non_null
+  flyway:
+    baselineOnMigrate: true
+
 
   liquibase:
     change-log: /db/changelog/db.changelog-root.xml
