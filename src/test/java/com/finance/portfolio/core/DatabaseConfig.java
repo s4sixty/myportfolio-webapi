@@ -12,13 +12,13 @@ import java.sql.SQLException;
 @Configuration
 public class DatabaseConfig {
 
-    @Value("spring.datasource.url")
+    @Value("${spring.datasource.url}")
     public String url;
 
-    @Value("spring.datasource.username")
+    @Value("${spring.datasource.username}")
     public String username;
 
-    @Value("spring.datasource.password")
+    @Value("${spring.datasource.password}")
     public String password;
 
     @Bean

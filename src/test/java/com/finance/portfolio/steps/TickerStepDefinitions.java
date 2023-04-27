@@ -20,12 +20,11 @@ public class TickerStepDefinitions extends CoreContext {
 
     @Given("a list of stocks from {string}")
     public void a_list_of_stocks(String fileName) {
-        var response = executeGet("actuator/health");
-        ScriptUtils.executeSqlScript(dbConnection, new ClassPathResource(fileName));
-        assertEquals(1, 1);
+        ScriptUtils.executeSqlScript(dbConnection, new ClassPathResource("sql/" + fileName));
     }
     @When("I get all stocks")
     public void i_get_all_stocks() {
+        var response = executeGet("actuator/health");
         assertEquals(1, 1);
     }
     @Then("I should receive the same list of stocks")

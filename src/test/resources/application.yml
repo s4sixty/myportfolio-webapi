@@ -6,6 +6,9 @@ spring:
     password: sa
   liquibase:
     enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create
 
 ticker-service-api:
   url:
