@@ -1,6 +1,5 @@
 package com.finance.portfolio.config.security;
 
-import com.finance.portfolio.config.filter.JwtAuthFilter;
 import com.finance.portfolio.services.users.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -23,11 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final UserService userService;
-    private final JwtAuthFilter jwtAuthFilter;
+    private final JwtAuthConverter jwtAuthConverter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) -> requests
+        http.authorizeHttpRequests(requests -> requests
                 .requestMatchers("/api/v1/auth/*",
                         "/swagger",
                         "/v3/api-docs/**",
@@ -37,21 +35,22 @@ public class WebSecurityConfig {
                         "/swagger-ui/**",
                         "/webjars/**").permitAll()
                 .anyRequest()
-                .permitAll()
+                .authenticated()
             );
+        http.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthConverter);
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.userDetailsService(userService);
-        http.addFilterBefore(
+        /* http.addFilterBefore(
             jwtAuthFilter,
             UsernamePasswordAuthenticationFilter.class
-        );
+        ); */
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
-            UserDetailsService userDetailsService) throws Exception {
+            UserDetailsService userDetailsService) {
         var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userService);
         authProvider.setPasswordEncoder(passwordEncoder());

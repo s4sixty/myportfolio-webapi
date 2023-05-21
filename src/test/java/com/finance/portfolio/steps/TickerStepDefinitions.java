@@ -5,6 +5,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 
@@ -14,6 +16,7 @@ import static org.assertj.core.api.FactoryBasedNavigableIterableAssert.assertTha
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RequiredArgsConstructor
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TickerStepDefinitions extends CoreContext {
 
     public final Connection dbConnection;
@@ -23,9 +26,10 @@ public class TickerStepDefinitions extends CoreContext {
         ScriptUtils.executeSqlScript(dbConnection, new ClassPathResource("sql/" + fileName));
     }
     @When("I get all stocks")
-    public void i_get_all_stocks() {
-        var response = executeGet("actuator/health");
-        assertEquals(1, 1);
+    public void i_get_all_stocks() throws Exception {
+        var response = executeGetWithAuthentication("api/v1/tickers/stocks").getResponse();
+        assertEquals(200, response.getStatus());
+
     }
     @Then("I should receive the same list of stocks")
     public void i_should_receive_the_same_list_of_stocks() {

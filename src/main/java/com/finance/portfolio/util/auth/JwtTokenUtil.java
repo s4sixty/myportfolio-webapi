@@ -7,7 +7,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.finance.portfolio.domain.dao.User;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +17,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class JwtTokenUtil {
-    private static final long EXPIRE_DURATION = 100 * 60 * 60 * 1000; // 100 hour
+    private static final long EXPIRE_DURATION = (long) 100 * 60 * 60 * 1000; // 100 hours
 
     @Value("${app.jwt.secret}")
-    private String SECRET_KEY;
+    private String secretKey;
 
     public String generateAccessToken(User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC512(SECRET_KEY);
+            Algorithm algorithm = Algorithm.HMAC512(secretKey);
             return JWT.create()
                     .withIssuer("angel-investor")
                     .withSubject(String.format("%s,%s", user.getId(), user.getEmail()))
@@ -40,9 +39,8 @@ public class JwtTokenUtil {
 
     public DecodedJWT validateAccessToken(String token) {
         try {
-            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC512(SECRET_KEY)).withIssuer("angel-investor").build();
-            var decodedToken = jwtVerifier.verify(token);
-            return decodedToken;
+            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC512(secretKey)).withIssuer("angel-investor").build();
+            return jwtVerifier.verify(token);
         } catch (JWTVerificationException ex) {
             throw new JWTVerificationException("Access token is not valid", ex);
         } catch (IllegalArgumentException ex) {

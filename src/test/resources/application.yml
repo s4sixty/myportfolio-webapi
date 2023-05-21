@@ -12,7 +12,7 @@ spring:
 
 ticker-service-api:
   url:
-    localhost:3000/api/v1
+    192.168.1.100:3000/api/v1
 
 app:
   jwt:

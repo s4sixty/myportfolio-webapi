@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/portfolio
+    url: jdbc:postgresql://192.168.1.100:5432/myportfolio-db
     username: postgres
     password: <<DB_PASSWORD>>
     driverClassName: org.postgresql.Driver
@@ -8,10 +8,21 @@ spring:
     default-property-inclusion: non_null
   flyway:
     baselineOnMigrate: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.1.100:8080/realms/myportfolio
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
+jwt:
+  auth:
+    converter:
+      resource-id: springboot-keycloak-client
+      principal-attribute: preferred_username
 
   liquibase:
-    change-log: /db/changelog/db.changelog-root.xml
+    change-log: /db/changelog/db.changelog-master.xml
     enabled: false
   jpa:
     hibernate:
@@ -20,7 +31,7 @@ spring:
 
 ticker-service-api:
   url:
-    localhost:3000/api/v1
+    http://192.168.1.100:5000/api/v1
 
 liquibase:
   secureParsing: false
@@ -30,7 +41,7 @@ app:
     secret: <<JWT_SECRET>>
 
 server:
-  port: 8080
+  port: 8000
 
 springdoc:
   swagger-ui:

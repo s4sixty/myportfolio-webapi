@@ -1,7 +1,6 @@
 package com.finance.portfolio.config.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.finance.portfolio.domain.dao.User;
 import com.finance.portfolio.repositories.UserRepository;
 import com.finance.portfolio.util.auth.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -21,12 +20,11 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter {
+
     private final JwtTokenUtil jwtTokenUtil;
     private final UserRepository userRepository;
 
-
-    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(!hasAuthorizationBearer(request)) {
             filterChain.doFilter(request, response);
@@ -40,16 +38,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private boolean hasAuthorizationBearer(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
-        if (ObjectUtils.isEmpty(header) || !header.startsWith("Bearer")) {
-            return false;
-        }
-        return true;
+        return !ObjectUtils.isEmpty(header) && header.startsWith("Bearer");
     }
 
     private String getAccessToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
-        String token = header.split(" ")[1].trim();
-        return token;
+        return header.split(" ")[1].trim();
     }
 
     private void setAuthenticationContext(DecodedJWT token, HttpServletRequest request) {
@@ -67,9 +61,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private UserDetails getUserDetails(DecodedJWT token) {
         String[] jwtSubject = token.getSubject().split(",");
 
-        User userDetails = userRepository.findByIdWithRoles(Long.parseLong(jwtSubject[0]))
+        return userRepository.findByIdWithRoles(Long.parseLong(jwtSubject[0]))
                 .orElseThrow(() -> new IllegalStateException("Invalid user in access token"));
-
-        return userDetails;
     }
 }
