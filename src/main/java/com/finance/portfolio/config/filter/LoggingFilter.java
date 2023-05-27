@@ -25,16 +25,12 @@ public class LoggingFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         UUID uniqueId = UUID.randomUUID();
         MDC.put("activityId", uniqueId.toString());
-        log.info("Request IP address is {}", servletRequest.getRemoteAddr());
-        log.info("Request content type is {}", servletRequest.getContentType());
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(
                 (HttpServletResponse) servletResponse
         );
         try {
             filterChain.doFilter(servletRequest, responseWrapper);
-            responseWrapper.setHeader("requestId", uniqueId.toString());
             responseWrapper.copyBodyToResponse();
-            log.info("Response header is set with uuid {}", responseWrapper.getHeader("requestId"));
         } finally {
             MDC.clear();
         }
