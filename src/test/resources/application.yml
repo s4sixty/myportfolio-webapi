@@ -9,6 +9,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.1.100:8080/realms/myportfolio
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 ticker-service-api:
   url:

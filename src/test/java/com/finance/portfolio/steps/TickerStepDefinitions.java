@@ -25,12 +25,13 @@ public class TickerStepDefinitions extends CoreContext {
     public void a_list_of_stocks(String fileName) {
         ScriptUtils.executeSqlScript(dbConnection, new ClassPathResource("sql/" + fileName));
     }
+
     @When("I get all stocks")
     public void i_get_all_stocks() throws Exception {
         var response = executeGetWithAuthentication("api/v1/tickers/stocks").getResponse();
         assertEquals(200, response.getStatus());
-
     }
+
     @Then("I should receive the same list of stocks")
     public void i_should_receive_the_same_list_of_stocks() {
         assertEquals(1, 1);

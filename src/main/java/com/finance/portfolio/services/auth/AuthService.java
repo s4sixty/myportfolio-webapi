@@ -5,7 +5,6 @@ import com.finance.portfolio.domain.dto.auth.AuthRequest;
 import com.finance.portfolio.domain.dto.auth.AuthResponse;
 import com.finance.portfolio.util.auth.JwtTokenUtil;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,9 +26,7 @@ public class AuthService {
 
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtTokenUtil.generateAccessToken(user);
-            AuthResponse response = new AuthResponse(user.getEmail(), accessToken);
-
-            return response;
+            return new AuthResponse(user.getEmail(), accessToken);
 
         } catch (BadCredentialsException ex) {
             throw new BadCredentialsException("Invalid credentials", ex);
