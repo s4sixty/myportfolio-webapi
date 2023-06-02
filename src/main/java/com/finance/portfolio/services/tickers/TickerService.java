@@ -1,8 +1,6 @@
 package com.finance.portfolio.services.tickers;
 
 import com.finance.portfolio.domain.dao.Stock;
-import com.finance.portfolio.domain.dto.core.ApiPagingResult;
-import com.finance.portfolio.domain.dto.core.Paging;
 import com.finance.portfolio.domain.dto.ticker.TickerHistoryResponse;
 import com.finance.portfolio.domain.dto.ticker.TickerInfoResponse;
 import com.finance.portfolio.domain.exceptions.BusinessCoreException;
@@ -14,8 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -26,21 +22,20 @@ public class TickerService {
 
     public Page<Stock> getStocks(Integer page, Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        var response = stockRepository.findAll(pageRequest);
-        return response;
+        return stockRepository.findAll(pageRequest);
     }
 
     public TickerInfoResponse getTickerInfo(String tickerId) throws BusinessCoreException {
-        var stock = GetStockIfExists(tickerId.toUpperCase());
+        var stock = getStockIfExists(tickerId.toUpperCase());
         return tickerServiceConnector.getTickerInfo(stock.getTicker());
     }
 
     public TickerHistoryResponse getTickerHistory(String tickerId, String period, String interval) throws BusinessCoreException {
-        var stock = GetStockIfExists(tickerId.toUpperCase());
+        var stock = getStockIfExists(tickerId.toUpperCase());
         return tickerServiceConnector.getTickerHistory(stock.getTicker(), period, interval);
     }
 
-    private Stock GetStockIfExists(String stockTicker) throws BusinessCoreException {
+    private Stock getStockIfExists(String stockTicker) throws BusinessCoreException {
         return stockRepository.findByTicker(stockTicker).orElseThrow(() ->
                 new SanityCheckException(String.format("Stock ticker %s not found", stockTicker)));
     }

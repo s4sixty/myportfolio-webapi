@@ -1,6 +1,7 @@
 package com.finance.portfolio.steps;
 
 import com.finance.portfolio.core.CoreContext;
+import com.finance.portfolio.domain.dao.Stock;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -11,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 
 import java.sql.Connection;
+import java.util.List;
 
 import static org.assertj.core.api.FactoryBasedNavigableIterableAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TickerStepDefinitions extends CoreContext {
 
-    public final Connection dbConnection;
+    public List<Stock> stocks;
+
+    private final Connection dbConnection;
 
     @Given("a list of stocks from {string}")
     public void a_list_of_stocks(String fileName) {
@@ -29,6 +33,7 @@ public class TickerStepDefinitions extends CoreContext {
     @When("I get all stocks")
     public void i_get_all_stocks() throws Exception {
         var response = executeGetWithAuthentication("api/v1/tickers/stocks").getResponse();
+
         assertEquals(200, response.getStatus());
     }
 

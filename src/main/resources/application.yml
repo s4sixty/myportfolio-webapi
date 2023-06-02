@@ -18,7 +18,7 @@ spring:
 jwt:
   auth:
     converter:
-      resource-id: springboot-keycloak-client
+      resource-id: myportfolio-client
       principal-attribute: preferred_username
 
   liquibase:

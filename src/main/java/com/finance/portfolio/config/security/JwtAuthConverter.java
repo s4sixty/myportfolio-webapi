@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,8 +19,6 @@ import java.util.stream.Stream;
 
 @Component
 public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
-    private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-
     private final JwtAuthConverterProperties properties;
 
     public JwtAuthConverter(JwtAuthConverterProperties properties) {
@@ -28,9 +27,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
 
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
-        Collection<GrantedAuthority> authorities = Stream.concat(
-                jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
-                extractResourceRoles(jwt).stream()).collect(Collectors.toSet());
+        Collection<GrantedAuthority> authorities = new HashSet<>(extractResourceRoles(jwt));
         return new JwtAuthenticationToken(jwt, authorities, getPrincipalClaimName(jwt));
     }
 
@@ -52,7 +49,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             return Set.of();
         }
         return resourceRoles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
                 .collect(Collectors.toSet());
     }
 }
